@@ -1,0 +1,4 @@
+name: CubeRSS
+version: '${project.version}'
+main: de.lunarakai.cuberss.CubeRSS
+api-version: '1.21'
