@@ -1,10 +1,10 @@
-name: CubeRSS
+name: BlockFox
 version: '${project.version}'
-main: de.lunarakai.cuberss.CubeRSS
+main: de.lunarakai.blockfox.BlockFoxPlugin
 api-version: '1.21'
 depend:
   - CubesideUtils
   - LunarUtils
 commands:
-  cuberss:
+  blockfox:
     description: main command

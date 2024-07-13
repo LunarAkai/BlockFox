@@ -1,4 +1,4 @@
-package de.lunarakai.cuberss.commands;
+package de.lunarakai.blockfox.commands;
 
 import com.apptasticsoftware.rssreader.Item;
 import com.apptasticsoftware.rssreader.RssReader;
@@ -10,7 +10,7 @@ import de.iani.cubesideutils.bukkit.commands.exceptions.InternalCommandException
 import de.iani.cubesideutils.bukkit.commands.exceptions.NoPermissionException;
 import de.iani.cubesideutils.bukkit.commands.exceptions.RequiresPlayerException;
 import de.iani.cubesideutils.commands.ArgsParser;
-import de.lunarakai.cuberss.CubeRSS;
+import de.lunarakai.blockfox.BlockFoxPlugin;
 import de.lunarakai.lunarutils.StringUtils;
 import de.lunarakai.lunarutils.chat.MessageUtils;
 import java.io.IOException;
@@ -24,9 +24,9 @@ import org.jsoup.nodes.Document;
 
 public class TestRSSCommand extends SubCommand {
 
-    private final CubeRSS plugin;
+    private final BlockFoxPlugin plugin;
 
-    public TestRSSCommand(CubeRSS plugin) {
+    public TestRSSCommand(BlockFoxPlugin plugin) {
         this.plugin = plugin;
     }
 
