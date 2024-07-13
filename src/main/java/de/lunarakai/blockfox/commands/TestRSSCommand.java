@@ -11,6 +11,7 @@ import de.iani.cubesideutils.bukkit.commands.exceptions.NoPermissionException;
 import de.iani.cubesideutils.bukkit.commands.exceptions.RequiresPlayerException;
 import de.iani.cubesideutils.commands.ArgsParser;
 import de.lunarakai.blockfox.BlockFoxPlugin;
+import de.lunarakai.blockfox.utils.HTMLUtils;
 import de.lunarakai.lunarutils.StringUtils;
 import de.lunarakai.lunarutils.chat.MessageUtils;
 import java.io.IOException;
@@ -69,11 +70,9 @@ public class TestRSSCommand extends SubCommand {
             Optional<String> optionaltest = items.getFirst().getComments();
             if(optionaltest.isPresent()) {
                 Document parsedTest = Jsoup.parse(optionaltest.get());
-                Elements elements = parsedTest.getElementsByTag("li");
-                // todo: format html elements to readable string (for example new line at ul li)
-                // todo: with current method ul li inside another ul li are duplicated
-                for (Element element : elements) {
-                    MessageUtils.sendSimpleInfoMessage(player, "- " + element.text());
+                List<String> list = HTMLUtils.formatHTMLList(parsedTest);
+                for(String string: list) {
+                    MessageUtils.sendSimpleSuccessMessage(player, string);
                 }
             } else {
                 Optional<String> optionalDescription = items.getFirst().getDescription();
