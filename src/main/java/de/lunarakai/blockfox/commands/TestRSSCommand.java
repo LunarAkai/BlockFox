@@ -21,6 +21,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class TestRSSCommand extends SubCommand {
 
@@ -67,8 +69,12 @@ public class TestRSSCommand extends SubCommand {
             Optional<String> optionaltest = items.getFirst().getComments();
             if(optionaltest.isPresent()) {
                 Document parsedTest = Jsoup.parse(optionaltest.get());
-                // todo: format html elements to readable string (for example new line at <ul><li>)
-                MessageUtils.sendSimpleInfoMessage(player, parsedTest.toString());
+                Elements elements = parsedTest.getElementsByTag("li");
+                // todo: format html elements to readable string (for example new line at ul li)
+                // todo: with current method ul li inside another ul li are duplicated
+                for (Element element : elements) {
+                    MessageUtils.sendSimpleInfoMessage(player, "- " + element.text());
+                }
             } else {
                 Optional<String> optionalDescription = items.getFirst().getDescription();
                 optionalDescription.ifPresent(string -> sender.sendMessage(NamedChatColor.GOLD + string));
