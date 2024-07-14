@@ -87,7 +87,7 @@ public class TestRSSCommand extends SubCommand {
 
             Optional<String> optionalDate = items.getFirst().getPubDate();
             if(optionalDate.isPresent()) {
-                String time = TimeUtils.convertStringTime(optionalDate.get());
+                String time = TimeUtils.convertStringTime(plugin, optionalDate.get());
                 MessageUtils.sendSimpleSpecialMessage(player, time, NamedTextColor.GRAY);
             }
         } catch (IOException e) {
