@@ -12,10 +12,14 @@ public class HTMLUtils {
         // todo: with current method ul li inside another ul li are duplicated
         List<String> list = new ArrayList<>();
         Elements elements = document.select("ul");
+        Elements li = elements.select("li");
 
-        for (Element element : elements) {
-
-            list.add("- " + element.html() + "\n");
+        for (Element element : li) {
+            if(element.html().contains("ul")) {
+                list.add("- " + element.html().split("<ul>")[0].trim() + "\n");
+                continue;
+            }
+            list.add("- " + element.text() + "\n");
 
 
 

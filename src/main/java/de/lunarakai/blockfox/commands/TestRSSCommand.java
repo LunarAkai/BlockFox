@@ -12,11 +12,14 @@ import de.iani.cubesideutils.bukkit.commands.exceptions.RequiresPlayerException;
 import de.iani.cubesideutils.commands.ArgsParser;
 import de.lunarakai.blockfox.BlockFoxPlugin;
 import de.lunarakai.blockfox.utils.HTMLUtils;
+import de.lunarakai.blockfox.utils.TimeUtils;
 import de.lunarakai.lunarutils.StringUtils;
 import de.lunarakai.lunarutils.chat.MessageUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -83,7 +86,10 @@ public class TestRSSCommand extends SubCommand {
             optionalLink.ifPresent(string -> sender.sendMessage(NamedChatColor.AQUA + string));
 
             Optional<String> optionalDate = items.getFirst().getPubDate();
-            optionalDate.ifPresent(string -> sender.sendMessage(NamedChatColor.GRAY + string));
+            if(optionalDate.isPresent()) {
+                String time = TimeUtils.convertStringTime(optionalDate.get());
+                MessageUtils.sendSimpleSpecialMessage(player, time, NamedTextColor.GRAY);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
