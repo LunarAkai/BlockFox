@@ -18,15 +18,12 @@ import de.lunarakai.lunarutils.chat.MessageUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class TestRSSCommand extends SubCommand {
 
