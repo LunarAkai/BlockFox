@@ -41,6 +41,11 @@ public class DisplayList {
             return;
         }
 
+        // TODO:
+        //  21:41:50] [Server thread/ERROR]: [BlockFox] could not load display list file
+        //  org.bukkit.configuration.InvalidConfigurationException: Global tag is not allowed: tag:yaml.org,2002:java.util.UUID
+        //  in 'reader', line 15, column 17:
+        //        - titlebar: !!java.util.UUID '4a547213-21bd- ...
         YamlConfiguration conf = new YamlConfiguration();
         try {
             conf.load(this.displayListFile);

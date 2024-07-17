@@ -40,6 +40,7 @@ public class DeleteCommand extends SubCommand {
         return BlockFoxPlugin.PERMISSION_ADMIN;
     }
 
+    // doesnt work??
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String commandString, ArgsParser args) throws DisallowsCommandBlockException, RequiresPlayerException, NoPermissionException, IllegalSyntaxException, InternalCommandException {
         Player player = (Player) sender;
@@ -54,7 +55,7 @@ public class DeleteCommand extends SubCommand {
             plugin.getDisplayList().removeBlockFoxDisplay(display);
             MessageUtils.sendSimpleWarningMessage(player, "display.delete.success");
         }
-        return false;
+        return true;
     }
 
     @Override
