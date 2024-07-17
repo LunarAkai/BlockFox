@@ -5,12 +5,20 @@ import de.lunarakai.blockfox.BlockFoxPlugin;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TextDisplay;
 
 public class BlockFoxDisplay {
     private final BlockFoxPlugin plugin;
@@ -21,7 +29,8 @@ public class BlockFoxDisplay {
     private DisplayStatus displayStatus = DisplayStatus.INACTIVE;
     private BlockFoxDisplayMode blockFoxDisplayMode = BlockFoxDisplayMode.RSS_FEED;
     private ArrayList<URI> savedLinks;
-    private UUID[] textDisplays;
+    private Boolean isInFixedMode;
+    private List<UUID> displays;
     private Player currentPlayer;
 
     // Width = 5
@@ -31,7 +40,7 @@ public class BlockFoxDisplay {
         this.plugin = plugin;
         this.name = Preconditions.checkNotNull(displaySection.getString("name"));
         this.location = Preconditions.checkNotNull(displaySection.getLocation("location"));
-        this.textDisplays = new UUID[99]; // TODO
+        this.displays = new ArrayList<>(); // TODO
         this.savedLinks = new ArrayList<>();
 
         BlockFace orientation = BlockFace.NORTH;
@@ -56,7 +65,7 @@ public class BlockFoxDisplay {
         for(int i = 0; i < list.size(); i++) {
             String textDisplay = list.get(i);
             if(textDisplay != null) {
-                textDisplays[i] = UUID.fromString(textDisplay);
+                displays.set(i, UUID.fromString(textDisplay));
             }
         }
 
@@ -74,13 +83,89 @@ public class BlockFoxDisplay {
         }
     }
 
+    public BlockFoxDisplay(BlockFoxPlugin plugin, String name, Location location, BlockFace orientation, boolean isInFixedMode) {
+        this.plugin = plugin;
+        this.name = Preconditions.checkNotNull(name, "name is null");
+        this.location = Preconditions.checkNotNull(location, "location is null");
+        this.displays = new ArrayList<>(); // TODO
+        this.isInFixedMode = isInFixedMode;
+
+        Preconditions.checkArgument(Math.abs(orientation.getModX()) + Math.abs(orientation.getModZ()) == 1, "no cardinal direction");
+        this.orientation = orientation;
+        int d0x = orientation.getModX();
+        int d0z = orientation.getModZ();
+        int d1x = -d0z;
+        int d1z = d0x;
+        this.centerLocation = location.clone().add(0.5, 0, 0.5);
+    }
+
+    public void generateBackgroundBlocks() {
+        World world = location.getWorld();
+        int d0x = orientation.getModX();
+        int d0z = orientation.getModZ();
+        int d1x = -d0z;
+        int d1z = d0x;
+        Location loc = location.clone();
+
+        BlockData block0 = Material.SMOOTH_QUARTZ.createBlockData();
+
+        for (int fx = -1 - 5 - 3; fx < 2; fx++) {
+            for (int fy = -1; fy < 3 - 1; fy++) {
+                loc.set(location.getX() + d1x * fx, location.getY() + fy, location.getZ() + d1z * fx);
+                world.setBlockData(loc, block0);
+            }
+        }
+    }
+
+    /*
+        Mitte = Block(1,1)
+     */
+    public void generateDisplays() {
+        // Todo:
+        //  2 Text Displays
+        //  5 Item Displays + weitere als Buttons für Fediverse Navigation
+        //  s. https://imgur.com/9XJ4XWw
+        int sizeWidth = 5;
+        int sizeHeight = 3;
+
+        World world = location.getWorld();
+        for(UUID uuid : displays) {
+            if(uuid != null) {
+                Entity display = world.getEntity(uuid);
+                if(display instanceof Display) {
+                    display.remove();
+                }
+            }
+        }
+        Collections.fill(displays, null);
+
+        float rotation0 = 0;
+
+        rotation0 = getRotationYaw();
+        float rotation = rotation0;
+
+        int d0x = orientation.getModX();
+        int d0z = orientation.getModZ();
+        int d1x = -d0z;
+        int d1z = d0x;
+
+        Location loc = location.clone();
+
+        TextDisplay textDisplayTitle = world.spawn(loc, TextDisplay.class, textDisplay -> {
+
+        });
+
+
+
+    }
+
     public void save(ConfigurationSection displaySection) {
         displaySection.set("name", name);
         displaySection.set("location", location);
         displaySection.set("orientation", orientation.name());
         displaySection.set("mode", blockFoxDisplayMode.getModeName());
         List<String> textDisplays = new ArrayList<>();
-        for(UUID uuid : this.textDisplays) {
+        for(UUID uuid : this.displays) {
             textDisplays.add(uuid == null ? null : uuid.toString());
         }
         displaySection.set("textdisplays", textDisplays);
@@ -122,8 +207,8 @@ public class BlockFoxDisplay {
         return displayStatus;
     }
 
-    public UUID[] getTextDisplays() {
-        return textDisplays;
+    public List<UUID> getDisplays() {
+        return displays;
     }
 
     public BlockFoxDisplayMode getBlockFoxDisplayMode() {

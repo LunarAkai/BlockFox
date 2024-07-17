@@ -1,6 +1,8 @@
 package de.lunarakai.blockfox;
 
 import de.iani.cubesideutils.bukkit.commands.CommandRouter;
+import de.lunarakai.blockfox.commands.CreateCommand;
+import de.lunarakai.blockfox.commands.DeleteCommand;
 import de.lunarakai.blockfox.commands.InfoCommand;
 import de.lunarakai.blockfox.commands.TestRSSCommand;
 import de.lunarakai.blockfox.common.BlockFoxManager;
@@ -38,6 +40,8 @@ public final class BlockFoxPlugin extends JavaPlugin {
         CommandRouter commandRouter = new CommandRouter(getCommand("blockfox"));
         // Common
         commandRouter.addCommandMapping(new InfoCommand(this), "info");
+        commandRouter.addCommandMapping(new CreateCommand(this), "create");
+        commandRouter.addCommandMapping(new DeleteCommand(this), "delete");
 
         // RSS
         commandRouter.addCommandMapping(new TestRSSCommand(this), "testrss");

@@ -79,7 +79,7 @@ public class DisplayList {
 //        for(Location loc : blockFoxDisplay.getBlocks()) {
 //            bfdisplayBlocks.put(loc.clone(), blockFoxDisplay);
 //        }
-        for(UUID uuid : blockFoxDisplay.getTextDisplays()) {
+        for(UUID uuid : blockFoxDisplay.getDisplays()) {
             if(uuid != null) {
                 bfdisplayItemDisplays.put(uuid, blockFoxDisplay);
             }
@@ -134,7 +134,7 @@ public class DisplayList {
             plugin.getManager().leaveDisplay(blockFoxDisplay.getCurrentPlayer(), true);
         }
 
-        for(UUID uuid : blockFoxDisplay.getTextDisplays()) {
+        for(UUID uuid : blockFoxDisplay.getDisplays()) {
             if(uuid != null) {
                 bfdisplayItemDisplays.remove(uuid);
             }
