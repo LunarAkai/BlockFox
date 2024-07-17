@@ -1,6 +1,8 @@
 name: BlockFox
 version: '${project.version}'
 main: de.lunarakai.blockfox.BlockFoxPlugin
+author: LunarAkai
+website: https://github.com/LunarAkai/BlockFox
 api-version: '1.21'
 depend:
   - CubesideUtils
@@ -8,3 +10,7 @@ depend:
 commands:
   blockfox:
     description: main command
+
+permissions:
+  blockfox.admin: {}
+  blockfox.use: {}

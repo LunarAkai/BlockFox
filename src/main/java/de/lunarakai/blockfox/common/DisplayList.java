@@ -76,10 +76,10 @@ public class DisplayList {
     }
 
     private void setDisplayBlocks(BlockFoxDisplay blockFoxDisplay) {
-        for(Location loc : blockFoxDisplay.getBlocks()) {
-            bfdisplayBlocks.put(loc.clone(), blockFoxDisplay);
-        }
-        for(UUID uuid : blockFoxDisplay.getItemDisplays()) {
+//        for(Location loc : blockFoxDisplay.getBlocks()) {
+//            bfdisplayBlocks.put(loc.clone(), blockFoxDisplay);
+//        }
+        for(UUID uuid : blockFoxDisplay.getTextDisplays()) {
             if(uuid != null) {
                 bfdisplayItemDisplays.put(uuid, blockFoxDisplay);
             }
@@ -101,11 +101,11 @@ public class DisplayList {
     }
 
     public boolean collidesWithBlockFoxDisplay(BlockFoxDisplay newBlockFoxDisplay) {
-        for(Location location : newBlockFoxDisplay.getBlocks()) {
-            if(bfdisplayBlocks.get(location) != null) {
-                return true;
-            }
-        }
+//        for(Location location : newBlockFoxDisplay.getBlocks()) {
+//            if(bfdisplayBlocks.get(location) != null) {
+//                return true;
+//            }
+//        }
         return false;
     }
 
@@ -131,18 +131,18 @@ public class DisplayList {
 
     public void removeBlockFoxDisplay(BlockFoxDisplay blockFoxDisplay) {
         if(blockFoxDisplay.hasPlayer()) {
-            plugin.getManager().quitDisplay(blockFoxDisplay.getCurrentPlayer(), true, true);
+            plugin.getManager().leaveDisplay(blockFoxDisplay.getCurrentPlayer(), true);
         }
 
-        for(UUID uuid : arena.getItemDisplays()) {
+        for(UUID uuid : blockFoxDisplay.getTextDisplays()) {
             if(uuid != null) {
                 bfdisplayItemDisplays.remove(uuid);
             }
         }
-        for(Location block : blockFoxDisplay.getBlocks()) {
-            bfdisplayBlocks.remove(block);
-        }
-        blockFoxDisplay.removeItemDisplay();
+//        for(Location block : blockFoxDisplay.getBlocks()) {
+//            bfdisplayBlocks.remove(block);
+//        }
+        //blockFoxDisplay.removeItemDisplay();
 
         bfDisplays.remove(blockFoxDisplay.getName());
         save();

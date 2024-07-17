@@ -8,8 +8,7 @@ import org.jsoup.select.Elements;
 
 public class HTMLUtils {
     public static List<String> formatHTMLList(Document document) {
-        // todo: format html elements to readable string (for example new line at ul li)
-        // todo: with current method ul li inside another ul li are duplicated
+        // Todo: needs a prettier solution but it works for one sub list point at least ^^
         List<String> list = new ArrayList<>();
         Elements elements = document.select("ul");
         Elements li = elements.select("li");
@@ -20,10 +19,6 @@ public class HTMLUtils {
                 continue;
             }
             list.add("- " + element.text() + "\n");
-
-
-
-
         }
         return list;
     }
